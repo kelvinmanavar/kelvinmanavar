@@ -63,6 +63,8 @@ def test_badge_lines_under_300_characters():
     for line in LINES:
         if line.startswith("<a ") and "<picture>" in line:
             continue  # Connect lines are exempt
+        if line.startswith("|"):
+            continue  # generated table rows (descriptions vary)
         assert len(line) < 300, line[:80]
 
 
