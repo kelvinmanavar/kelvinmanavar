@@ -43,7 +43,13 @@ def redact(text: str, token: str | None) -> str:
     """Remove every occurrence of the token from text."""
     if not token:
         return text
-    return text.replace(token, "***")
+    marker = "[REDACTED]"
+    if token in marker:
+        marker = ""  # the marker itself must never reveal the token
+    out = text.replace(token, marker)
+    while token in out:  # removal can join fragments into a new occurrence
+        out = out.replace(token, marker)
+    return out
 
 
 class GitHubClient:
