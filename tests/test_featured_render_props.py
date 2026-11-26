@@ -25,6 +25,7 @@ def _repos(draw):
                 description=draw(st.one_of(st.none(), _word.map(lambda s: f"desc{s}"))),
                 language=draw(st.one_of(st.none(), _word.map(lambda s: f"Lang{s}"))),
                 stars=draw(st.integers(0, 1_000_000)),
+                languages=tuple(draw(st.lists(_word.map(lambda s: f"L{s}"), max_size=4, unique=True))),
                 pushed_at=datetime(2024, 1, 1, tzinfo=timezone.utc),
             )
         )
@@ -43,6 +44,8 @@ def test_featured_rendering_completeness(repos):
         assert f"[{repo.full_name}]({repo.url})" in row
         if repo.description:
             assert repo.description in row
-        if repo.language:
+        if repo.languages:
+            assert ", ".join(repo.languages) in row
+        elif repo.language:
             assert repo.language in row
-        assert f"| {repo.stars} |" in row
+        assert row.count("|") == 4  # three columns, no stars column

@@ -7,8 +7,8 @@ from collections.abc import Sequence
 from ..models import FeaturedRepo
 from ..text import escape_md
 
-_HEADER = "| Project | Description | Language | Stars |"
-_SEPARATOR = "| --- | --- | --- | ---: |"
+_HEADER = "| Project | Description | Languages |"
+_SEPARATOR = "| --- | --- | --- |"
 
 
 def _link_url(url: str) -> str:
@@ -24,11 +24,12 @@ def _link_url(url: str) -> str:
 
 
 def render_featured(repos: Sequence[FeaturedRepo]) -> str:
-    """Return a table with name link, description, primary language and stars."""
+    """Return a table with name link, description and languages."""
     lines = [_HEADER, _SEPARATOR]
     for repo in repos:
         name = f"[{escape_md(repo.full_name)}]({_link_url(repo.url)})"
         description = escape_md(repo.description) if repo.description else ""
-        language = escape_md(repo.language) if repo.language else ""
-        lines.append(f"| {name} | {description} | {language} | {repo.stars} |")
+        names = repo.languages or ((repo.language,) if repo.language else ())
+        language = ", ".join(escape_md(n) for n in names)
+        lines.append(f"| {name} | {description} | {language} |")
     return "\n".join(lines)

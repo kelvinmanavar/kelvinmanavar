@@ -74,3 +74,4 @@ class FeaturedRepo:
     language: str | None
     stars: int
     pushed_at: datetime
+    languages: tuple[str, ...] = ()  # top languages by size, largest first

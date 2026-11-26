@@ -52,6 +52,7 @@ def _repo_node(name, private=False):
             "stargazerCount": 3,
             "pushedAt": "2024-05-01T00:00:00Z",
             "primaryLanguage": {"name": "Python"},
+            "languages": {"nodes": [{"name": "Python"}, {"name": "Shell"}]},
         }
     }
 

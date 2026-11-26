@@ -28,14 +28,14 @@ I work on cloud infrastructure and delivery pipelines, mainly on AWS and Azure, 
 ## Featured Projects
 
 <!-- FEATURED:START -->
-| Project | Description | Language | Stars |
-| --- | --- | --- | ---: |
-| [kelvinmanavar/kelvinmanavar](https://github.com/kelvinmanavar/kelvinmanavar) |  | Python | 0 |
-| [kelvinmanavar/shopverse\-application](https://github.com/kelvinmanavar/shopverse-application) | Shopverse application source code, Docker configurations, Kubernetes manifests, Helm charts, and CI/CD pipelines for deploying containerized workloads to AWS EKS\. | JavaScript | 0 |
-| [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) | Production\-oriented AWS infrastructure for Shopverse project using Terraform, Amazon EKS, VPC, RDS, and GitHub Actions CI/CD automation\. | HCL | 0 |
-| [kelvinmanavar/terraform\-projects](https://github.com/kelvinmanavar/terraform-projects) | A comprehensive collection of AWS architecture patterns designed using Terraform \(Infrastructure as Code\)\. | HCL | 0 |
-| [kelvinmanavar/kelvin\-portfolio](https://github.com/kelvinmanavar/kelvin-portfolio) |  | TypeScript | 0 |
-| [kelvinmanavar/django\-celery\-app\-github\-action](https://github.com/kelvinmanavar/django-celery-app-github-action) | Django web application with Celery workers deployed on AWS EC2 using Auto Scaling Groups and Launch Templates, with CI/CD powered by GitHub Actions and AWS CodeDeploy\. | SCSS | 0 |
+| Project | Description | Languages |
+| --- | --- | --- |
+| [kelvinmanavar/kelvinmanavar](https://github.com/kelvinmanavar/kelvinmanavar) |  | Python |
+| [kelvinmanavar/shopverse\-application](https://github.com/kelvinmanavar/shopverse-application) | Shopverse application source code, Docker configurations, Kubernetes manifests, Helm charts, and CI/CD pipelines for deploying containerized workloads to AWS EKS\. | JavaScript, Go, CSS, HTML |
+| [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) | Production\-oriented AWS infrastructure for Shopverse project using Terraform, Amazon EKS, VPC, RDS, and GitHub Actions CI/CD automation\. | HCL |
+| [kelvinmanavar/terraform\-projects](https://github.com/kelvinmanavar/terraform-projects) | A comprehensive collection of AWS architecture patterns designed using Terraform \(Infrastructure as Code\)\. | HCL |
+| [kelvinmanavar/kelvin\-portfolio](https://github.com/kelvinmanavar/kelvin-portfolio) |  | TypeScript, JavaScript, CSS |
+| [kelvinmanavar/django\-celery\-app\-github\-action](https://github.com/kelvinmanavar/django-celery-app-github-action) | Django web application with Celery workers deployed on AWS EC2 using Auto Scaling Groups and Launch Templates, with CI/CD powered by GitHub Actions and AWS CodeDeploy\. | SCSS, CSS, HTML, Python |
 <!-- FEATURED:END -->
 
 ## GitHub Stats

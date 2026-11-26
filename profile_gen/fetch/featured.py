@@ -11,6 +11,7 @@ from ..config import Config
 from ..models import FeaturedRepo
 
 TOP_N = 6
+TOP_LANGUAGES = 4
 
 _REPO_QUERY = """
 query($owner: String!, $name: String!) {
@@ -22,6 +23,7 @@ query($owner: String!, $name: String!) {
     stargazerCount
     pushedAt
     primaryLanguage { name }
+    languages(first: 10, orderBy: {field: SIZE, direction: DESC}) { nodes { name } }
   }
 }
 """
@@ -77,6 +79,11 @@ def _fetch_configured(client: GitHubClient, name: str) -> FeaturedRepo | None:
         _warn_missing(name)
         return None
     language = node.get("primaryLanguage") or {}
+    names = tuple(
+        n["name"]
+        for n in ((node.get("languages") or {}).get("nodes") or [])
+        if n and n.get("name")
+    )[:TOP_LANGUAGES]
     return FeaturedRepo(
         full_name=node["nameWithOwner"],
         url=node["url"],
@@ -84,6 +91,7 @@ def _fetch_configured(client: GitHubClient, name: str) -> FeaturedRepo | None:
         language=language.get("name"),
         stars=node.get("stargazerCount") or 0,
         pushed_at=_parse_time(node["pushedAt"]),
+        languages=names,
     )
 
 
@@ -92,4 +100,7 @@ def fetch_featured(client: GitHubClient, cfg: Config) -> list[FeaturedRepo]:
         repos = (_fetch_configured(client, name) for name in cfg.featured_repos)
         return [r for r in repos if r is not None]
     pages = client.rest_pages(f"/users/{cfg.owner}/repos?type=owner&sort=pushed")
-    return select_top_repos(pages)
+    selected = select_top_repos(pages)
+    # Re-fetch each pick through GraphQL to get its full language list.
+    detailed = (_fetch_configured(client, r.full_name) for r in selected)
+    return [d or r for d, r in zip(detailed, selected)]
