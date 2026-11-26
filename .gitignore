@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Test caches
+.pytest_cache/
+.hypothesis/
+
+# Secrets
+.env
+
+# Editor and OS
+.vscode/
+.idea/
+.DS_Store
+
+# Kiro
+.kiro/
