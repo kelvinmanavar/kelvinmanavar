@@ -66,9 +66,9 @@ _All figures are public contributions._
 | CSS | 11.9% |
 | SCSS | 2.6% |
 | HTML | 1.1% |
-| Blade | 0.8% |
+| Blade | 0.7% |
+| Python | 0.5% |
 | HCL | 0.4% |
-| Python | 0.4% |
 
 </td>
 </tr>
