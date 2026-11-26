@@ -54,6 +54,13 @@ query($login: String!, $from: DateTime!, $to: DateTime!) {
 }
 """
 
+_CREATED_QUERY = """
+query($login: String!) { user(login: $login) { createdAt } }
+"""
+
+# GraphQL rejects contributionsCollection ranges longer than one year.
+_WINDOW_DAYS = 365
+
 _SEARCH_QUERY = """
 query($q: String!) {
   search(query: $q, type: ISSUE, first: 1) { issueCount }
@@ -118,24 +125,42 @@ def fetch_calendar(client: GitHubClient, cfg: Config, now: datetime) -> Calendar
     return _parse_calendar(_user(data)["contributionsCollection"])
 
 
-def _distinct_repo_count(collection: dict) -> int:
-    """Count distinct repositories across all contribution kinds.
+_REPO_FIELD_NAMES = (
+    "commitContributionsByRepository",
+    "pullRequestContributionsByRepository",
+    "issueContributionsByRepository",
+    "pullRequestReviewContributionsByRepository",
+)
+
+
+def _repo_keys(collection: dict) -> set[object]:
+    """Identity keys of every repository in a contribution collection.
 
     Private and non-allow-listed organization repositories are counted
     anonymously: only their identity is used for de-duplication.
     """
     keys: set[object] = set()
-    for field in (
-        "commitContributionsByRepository",
-        "pullRequestContributionsByRepository",
-        "issueContributionsByRepository",
-        "pullRequestReviewContributionsByRepository",
-    ):
+    for field in _REPO_FIELD_NAMES:
         for item in collection.get(field) or []:
             repo = item.get("repository") or {}
             keys.add(repo.get("databaseId") or repo.get("nameWithOwner"))
     keys.discard(None)
-    return len(keys)
+    return keys
+
+
+def _distinct_repo_count(collection: dict) -> int:
+    return len(_repo_keys(collection))
+
+
+def _windows(start: datetime, end: datetime) -> list[tuple[datetime, datetime]]:
+    """Consecutive windows of at most one year covering [start, end]."""
+    out: list[tuple[datetime, datetime]] = []
+    cur = start
+    while cur < end:
+        nxt = min(cur + timedelta(days=_WINDOW_DAYS), end)
+        out.append((cur, nxt))
+        cur = nxt
+    return out
 
 
 def _fetch_languages(client: GitHubClient, cfg: Config) -> dict[str, int]:
@@ -167,35 +192,54 @@ def _count_merged_prs(
     return int(data["search"]["issueCount"])
 
 
+def _account_created(client: GitHubClient, cfg: Config) -> datetime:
+    data = client.graphql(_CREATED_QUERY, {"login": cfg.owner})
+    created = _user(data)["createdAt"]
+    return datetime.fromisoformat(created.replace("Z", "+00:00"))
+
+
 def fetch_stats(
     client: GitHubClient, cfg: Config, mode: Mode, now: datetime
 ) -> Stats:
-    """Collect summary counts, languages, and streaks for the owner."""
-    period_start = now - timedelta(days=cfg.contribution_period_days)
-    data = client.graphql(
-        _CONTRIBUTIONS_QUERY,
-        {"login": cfg.owner, "from": _iso(period_start), "to": _iso(now)},
-    )
-    collection = _user(data)["contributionsCollection"]
+    """Collect lifetime counts, languages, and streaks for the owner.
 
-    # Streaks need a full 12 months of calendar regardless of the period.
-    if cfg.contribution_period_days >= CALENDAR_DAYS:
-        calendar = _parse_calendar(collection)
-    else:
-        calendar = fetch_calendar(client, cfg, now)
-    today = now.astimezone(timezone.utc).date() if now.tzinfo else now.date()
-    current, longest = streaks(calendar.days, today)
+    Totals cover the whole life of the account, fetched in one-year windows
+    because the API limits each query to a year.
+    """
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    created = _account_created(client, cfg)
 
-    merged = _count_merged_prs(client, cfg, mode, period_start)
+    commits = prs = issues = reviews = 0
+    repo_keys: set[object] = set()
+    per_day: dict[date, int] = {}
+    for start, end in _windows(created, now):
+        data = client.graphql(
+            _CONTRIBUTIONS_QUERY,
+            {"login": cfg.owner, "from": _iso(start), "to": _iso(end)},
+        )
+        collection = _user(data)["contributionsCollection"]
+        commits += int(collection["totalCommitContributions"])
+        prs += int(collection["totalPullRequestContributions"])
+        issues += int(collection["totalIssueContributions"])
+        reviews += int(collection["totalPullRequestReviewContributions"])
+        repo_keys |= _repo_keys(collection)
+        for day in _parse_calendar(collection).days:
+            per_day[day.date] = per_day.get(day.date, 0) + day.count
+
+    days = [CalendarDay(date=d, count=c) for d, c in sorted(per_day.items())]
+    current, longest = streaks(days, now.astimezone(timezone.utc).date())
+
+    merged = _count_merged_prs(client, cfg, mode, created)
     languages = _fetch_languages(client, cfg)
 
     return Stats(
-        total_commits=int(collection["totalCommitContributions"]),
-        prs_opened=int(collection["totalPullRequestContributions"]),
+        total_commits=commits,
+        prs_opened=prs,
         prs_merged=merged,
-        issues_opened=int(collection["totalIssueContributions"]),
-        reviews=int(collection["totalPullRequestReviewContributions"]),
-        repos_contributed_to=_distinct_repo_count(collection),
+        issues_opened=issues,
+        reviews=reviews,
+        repos_contributed_to=len(repo_keys),
         languages=languages,
         current_streak=current,
         longest_streak=longest,

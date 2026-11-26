@@ -235,3 +235,46 @@ def test_activity_respects_feed_length():
     pages = [_push_event(f"o/r{i}", f"2024-05-0{i + 1}T00:00:00Z") for i in range(5)]
     result = fetch_activity(FakeClient(pages=pages), cfg(feed_length=2))
     assert [e.repo for e in result] == ["o/r4", "o/r3"]
+
+
+# ---------- lifetime stats ----------
+
+def test_stats_cover_whole_account_lifetime_in_year_windows():
+    from profile_gen.fetch.stats import fetch_stats
+
+    windows = []
+
+    def gql(v):
+        if "createdAt" in str(v) or list(v) == ["login"]:
+            return {"user": {"createdAt": "2021-10-04T00:00:00Z"}}
+        if "q" in v:
+            windows.append(("search", v["q"]))
+            return {"search": {"issueCount": 7}}
+        if "from" in v:
+            windows.append((v["from"], v["to"]))
+            return {"user": {"contributionsCollection": {
+                "totalCommitContributions": 10,
+                "totalPullRequestContributions": 2,
+                "totalIssueContributions": 1,
+                "totalPullRequestReviewContributions": 0,
+                "commitContributionsByRepository": [
+                    {"repository": {"databaseId": 1, "nameWithOwner": "a/b"}}],
+                "pullRequestContributionsByRepository": [],
+                "issueContributionsByRepository": [],
+                "pullRequestReviewContributionsByRepository": [],
+                "contributionCalendar": {"weeks": []},
+            }}}
+        return {"user": {"repositories": {
+            "pageInfo": {"hasNextPage": False, "endCursor": None}, "nodes": []}}}
+
+    now = datetime(2024, 6, 1, tzinfo=timezone.utc)
+    stats = fetch_stats(FakeClient(graphql=gql), cfg(), "public", now)
+    spans = [w for w in windows if w[0] != "search"]
+    assert spans[0][0] == "2021-10-04T00:00:00Z"
+    assert spans[-1][1] == "2024-06-01T00:00:00Z"
+    assert len(spans) == 3
+    assert all(a == b_prev for (_, b_prev), (a, _) in zip(spans, spans[1:]))
+    assert stats.total_commits == 30 and stats.prs_opened == 6
+    assert stats.repos_contributed_to == 1  # same repo in every window
+    assert stats.prs_merged == 7
+    assert ("search", "author:me is:pr is:merged merged:>=2021-10-04 is:public") in windows
