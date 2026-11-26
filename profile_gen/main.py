@@ -32,6 +32,7 @@ from .render.stats import render_stats
 
 SECTIONS = ("FEATURED", "STATS", "GRAPH", "ACTIVITY", "CONTRIBUTIONS")
 TOKEN_ENV = "PROFILE_STATS_TOKEN"
+PUBLIC_TOKEN_ENV = "GITHUB_TOKEN"
 DEFAULT_ROOT = Path(__file__).resolve().parent.parent
 THEMES = ("dark", "light")
 
@@ -43,11 +44,15 @@ def _default_factory(token: str) -> GitHubClient:
 
 
 def _select_client(
-    token: str, client_factory: ClientFactory
+    token: str, client_factory: ClientFactory, public_token: str = ""
 ) -> tuple[Any, Mode]:
-    """Return (client, mode). Falls back to Public when the token is rejected."""
+    """Return (client, mode). Falls back to Public when the token is rejected.
+
+    Public mode uses ``public_token`` (the workflow's GITHUB_TOKEN) so the GraphQL
+    API accepts the requests. It only grants access to public data.
+    """
     if not token:
-        return client_factory(""), "public"
+        return client_factory(public_token), "public"
     client = client_factory(token)
     try:
         client.graphql("query { viewer { login } }", {})
@@ -58,7 +63,7 @@ def _select_client(
                 token,
             )
         )
-        return client_factory(""), "public"
+        return client_factory(public_token), "public"
     return client, "extended"
 
 
@@ -76,9 +81,10 @@ def main(
     client_factory = client_factory or _default_factory
     now = now or datetime.now(tz=timezone.utc)
     token = (env.get(TOKEN_ENV) or "").strip()
+    public_token = (env.get(PUBLIC_TOKEN_ENV) or "").strip()
 
     def log_error(msg: str) -> None:
-        logger.error(redact(msg, token))
+        logger.error(redact(redact(msg, token), public_token))
 
     try:
         cfg = load_config(root / "profile.config.json")
@@ -99,7 +105,7 @@ def main(
         return 1
 
     try:
-        client, mode = _select_client(token, client_factory)
+        client, mode = _select_client(token, client_factory, public_token)
 
         fetchers: dict[str, Callable[[], str]] = {
             "FEATURED": lambda: render_featured(fetch_featured(client, cfg)),
