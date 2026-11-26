@@ -43,6 +43,10 @@ I work on cloud infrastructure and delivery pipelines, mainly on AWS and Azure, 
 <!-- STATS:START -->
 _All figures are public contributions._
 
+<table>
+<tr>
+<td valign="top">
+
 | Metric | Count |
 |---|---:|
 | Total commits | 19 |
@@ -51,6 +55,9 @@ _All figures are public contributions._
 | Issues opened | 0 |
 | Code reviews | 0 |
 | Repositories contributed to | 6 |
+
+</td>
+<td valign="top">
 
 | Language | Share |
 |---|---:|
@@ -62,6 +69,10 @@ _All figures are public contributions._
 | Blade | 0.8% |
 | HCL | 0.4% |
 | Python | 0.4% |
+
+</td>
+</tr>
+</table>
 
 **Current streak:** 0 days · **Longest streak:** 4 days
 <!-- STATS:END -->

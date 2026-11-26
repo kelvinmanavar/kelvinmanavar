@@ -62,9 +62,7 @@ def streaks(days: Sequence[CalendarDay], today: date) -> tuple[int, int]:
 def render_stats(stats: Stats, mode: Mode) -> str:
     """Render the stats body: totals table, language table, streak line."""
     label = PUBLIC_LABEL if mode == "public" else EXTENDED_LABEL
-    lines = [
-        f"_All figures are {label}._",
-        "",
+    totals = [
         "| Metric | Count |",
         "|---|---:|",
         f"| Total commits | {stats.total_commits} |",
@@ -73,16 +71,33 @@ def render_stats(stats: Stats, mode: Mode) -> str:
         f"| Issues opened | {stats.issues_opened} |",
         f"| Code reviews | {stats.reviews} |",
         f"| Repositories contributed to | {stats.repos_contributed_to} |",
-        "",
     ]
     pct = language_percentages(stats.languages)
     if pct:
         top = sorted(pct.items(), key=lambda kv: (-kv[1], kv[0]))[:TOP_LANGUAGES]
-        lines += ["| Language | Share |", "|---|---:|"]
-        lines += [f"| {escape_md(name)} | {p:.1f}% |" for name, p in top]
+        langs = ["| Language | Share |", "|---|---:|"]
+        langs += [f"| {escape_md(name)} | {p:.1f}% |" for name, p in top]
     else:
-        lines.append("No language data available.")
-    lines += [
+        langs = ["No language data available."]
+    # An HTML table places the two Markdown tables side by side on GitHub.
+    # Blank lines around each cell body let GitHub render the Markdown inside.
+    lines = [
+        f"_All figures are {label}._",
+        "",
+        "<table>",
+        "<tr>",
+        '<td valign="top">',
+        "",
+        *totals,
+        "",
+        "</td>",
+        '<td valign="top">',
+        "",
+        *langs,
+        "",
+        "</td>",
+        "</tr>",
+        "</table>",
         "",
         f"**Current streak:** {stats.current_streak} days"
         f" · **Longest streak:** {stats.longest_streak} days",
