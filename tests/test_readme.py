@@ -15,12 +15,9 @@ SECTIONS = [
     "Tech Stack",
     "Featured Projects",
     "GitHub Stats",
-    "Contribution Graph",
-    "Recent Activity",
-    "Open Source Contributions",
     "Connect",
 ]
-MARKERS = ["FEATURED", "STATS", "GRAPH", "ACTIVITY", "CONTRIBUTIONS"]
+MARKERS = ["FEATURED", "STATS"]
 
 
 def _headings(level: int) -> list[str]:

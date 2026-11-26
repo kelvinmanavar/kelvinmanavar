@@ -80,24 +80,6 @@ _Featured projects will appear here._
 _GitHub stats will appear here._
 <!-- STATS:END -->
 
-## Contribution Graph
-
-<!-- GRAPH:START -->
-_Contribution graph will appear here._
-<!-- GRAPH:END -->
-
-## Recent Activity
-
-<!-- ACTIVITY:START -->
-_Recent activity will appear here._
-<!-- ACTIVITY:END -->
-
-## Open Source Contributions
-
-<!-- CONTRIBUTIONS:START -->
-_Open source contributions will appear here._
-<!-- CONTRIBUTIONS:END -->
-
 ## Connect
 
 <a href="https://github.com/kelvinmanavar" target="_blank" rel="noreferrer"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /></picture></a>  

@@ -62,7 +62,14 @@ def modes():
 
 @pytest.fixture
 def root(tmp_path, monkeypatch, modes):
-    shutil.copy(REPO_ROOT / "README.md", tmp_path / "README.md")
+    # The shipped README only has FEATURED and STATS; append the optional
+    # sections so the generator's full pipeline stays covered.
+    extra = "".join(
+        f"\n## {n}\n\n<!-- {n}:START -->\n_placeholder_\n<!-- {n}:END -->\n"
+        for n in ("GRAPH", "ACTIVITY", "CONTRIBUTIONS")
+    )
+    readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    (tmp_path / "README.md").write_text(readme + extra, encoding="utf-8")
     shutil.copy(REPO_ROOT / "profile.config.json", tmp_path / "profile.config.json")
     monkeypatch.setattr(main_mod, "fetch_featured", lambda c, cfg: [])
     monkeypatch.setattr(
@@ -129,7 +136,7 @@ def test_section_api_error_keeps_previous_body_and_exits_zero(root, monkeypatch,
     assert body(root, "STATS") == before
     assert "ERROR section=STATS" in caplog.text
     # other sections still updated
-    assert body(root, "GRAPH") != "_Contribution graph will appear here._"
+    assert body(root, "GRAPH") != "_placeholder_"
     assert "No recent public activity." in body(root, "ACTIVITY")
 
 

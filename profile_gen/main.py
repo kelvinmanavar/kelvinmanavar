@@ -98,8 +98,14 @@ def main(
     except OSError as exc:
         log_error(f"ERROR cannot read README.md: {exc}")
         return 1
+    # Sections absent from the README are skipped. A half-present pair is an error.
+    active = tuple(
+        n
+        for n in SECTIONS
+        if markers.start_marker(n) in readme or markers.end_marker(n) in readme
+    )
     try:
-        markers.validate(readme, SECTIONS)
+        markers.validate(readme, active)
     except MarkerError as exc:
         log_error(f"ERROR section={exc.section}: {exc}")
         return 1
@@ -120,7 +126,7 @@ def main(
         }
 
         bodies: dict[str, str] = {}
-        for name in SECTIONS:
+        for name in active:
             try:
                 bodies[name] = fetchers[name]()
             except RateLimitError:
@@ -130,13 +136,14 @@ def main(
                 bodies[name] = markers.extract(readme, name)
 
         svgs: dict[str, str] = {}
-        try:
-            calendar = fetch_calendar(client, cfg, now)
-            svgs = {t: render_graph_svg(calendar, t) for t in THEMES}  # type: ignore[arg-type]
-        except RateLimitError:
-            raise
-        except ApiError as exc:
-            log_error(f"ERROR section=GRAPH calendar fetch failed: {exc}")
+        if "GRAPH" in active:
+            try:
+                calendar = fetch_calendar(client, cfg, now)
+                svgs = {t: render_graph_svg(calendar, t) for t in THEMES}  # type: ignore[arg-type]
+            except RateLimitError:
+                raise
+            except ApiError as exc:
+                log_error(f"ERROR section=GRAPH calendar fetch failed: {exc}")
 
         new_readme = markers.replace_all(readme, bodies)
     except RateLimitError as exc:

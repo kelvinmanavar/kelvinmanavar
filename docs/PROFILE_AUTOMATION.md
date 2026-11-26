@@ -24,7 +24,7 @@ Rules:
 
 - Only the text between a marker pair is replaced. Everything outside the markers is kept exactly as written, so edit the rest of the README freely.
 - Do not edit text between markers by hand. The next run overwrites it.
-- Each of the five sections needs exactly one `START` and one `END` marker, with `START` first. Names are case-sensitive.
+- Only sections whose markers appear in the README are generated. The shipped README uses `FEATURED` and `STATS`; add the `GRAPH`, `ACTIVITY` or `CONTRIBUTIONS` markers to turn those sections on. Each section present needs exactly one `START` and one `END` marker, with `START` first. Names are case-sensitive.
 - If any marker is missing, duplicated, or out of order, the generator exits with an error naming the section and does not modify any file.
 - If fetching data for a section fails, that section keeps its previous content and the error is logged.
 
