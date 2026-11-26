@@ -71,15 +71,78 @@ I work on cloud infrastructure and delivery pipelines, mainly on AWS and Azure, 
 ## Featured Projects
 
 <!-- FEATURED:START -->
-_Featured projects will appear here._
+| Project | Description | Language | Stars |
+| --- | --- | --- | ---: |
+| [kelvinmanavar/kelvinmanavar](https://github.com/kelvinmanavar/kelvinmanavar) |  | Python | 0 |
+| [kelvinmanavar/shopverse\-application](https://github.com/kelvinmanavar/shopverse-application) | Shopverse application source code, Docker configurations, Kubernetes manifests, Helm charts, and CI/CD pipelines for deploying containerized workloads to AWS EKS\. | JavaScript | 0 |
+| [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) | Production\-oriented AWS infrastructure for Shopverse project using Terraform, Amazon EKS, VPC, RDS, and GitHub Actions CI/CD automation\. | HCL | 0 |
+| [kelvinmanavar/terraform\-projects](https://github.com/kelvinmanavar/terraform-projects) | A comprehensive collection of AWS architecture patterns designed using Terraform \(Infrastructure as Code\)\. | HCL | 0 |
+| [kelvinmanavar/kelvin\-portfolio](https://github.com/kelvinmanavar/kelvin-portfolio) |  | TypeScript | 0 |
+| [kelvinmanavar/django\-celery\-app\-github\-action](https://github.com/kelvinmanavar/django-celery-app-github-action) | Django web application with Celery workers deployed on AWS EC2 using Auto Scaling Groups and Launch Templates, with CI/CD powered by GitHub Actions and AWS CodeDeploy\. | SCSS | 0 |
 <!-- FEATURED:END -->
 
 ## GitHub Stats
 
 <!-- STATS:START -->
-_GitHub stats will appear here._
+_All figures are public contributions._
+
+| Metric | Count |
+|---|---:|
+| Total commits | 19 |
+| Pull requests opened | 5 |
+| Pull requests merged | 5 |
+| Issues opened | 0 |
+| Code reviews | 0 |
+| Repositories contributed to | 6 |
+
+| Language | Share |
+|---|---:|
+| PHP | 63.5% |
+| JavaScript | 19.1% |
+| CSS | 11.9% |
+| SCSS | 2.6% |
+| HTML | 1.1% |
+| Blade | 0.8% |
+| HCL | 0.4% |
+| Python | 0.4% |
+
+**Current streak:** 0 days · **Longest streak:** 4 days
 <!-- STATS:END -->
 
+<<<<<<< HEAD
+=======
+## Contribution Graph
+
+<!-- GRAPH:START -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/contribution-graph-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/contribution-graph-light.svg">
+  <img alt="Contribution graph for the last 12 months" src="assets/contribution-graph-light.svg">
+</picture>
+<!-- GRAPH:END -->
+
+## Recent Activity
+
+<!-- ACTIVITY:START -->
+- **Pushed 0 commits to** [kelvinmanavar/shopverse\-application](https://github.com/kelvinmanavar/shopverse-application) ([link](https://github.com/kelvinmanavar/shopverse-application/commit/8e7494d7f3635878f86a92ea6349a7c12857dd20)) (2026-11-18)
+- **Opened pull request in** [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) (2026-11-05)
+- **Pushed 0 commits to** [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) ([link](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure/commit/64e556b74df7062448842d5cc9cf5c4d6890f1eb)) (2026-11-05)
+- **Opened pull request in** [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) (2026-11-05)
+- **Pushed 0 commits to** [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) ([link](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure/commit/b4d4ecc19a46aad167e8b081e2fbbc7813094bd1)) (2026-11-05)
+- **Pushed 0 commits to** [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) ([link](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure/commit/a2539276f0cf44797a520f4d675370c2102a5a90)) (2026-11-04)
+- **Opened pull request in** [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) (2026-11-04)
+- **Pushed 0 commits to** [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) ([link](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure/commit/05895bc7d858b4b87c8dd3a8bfbe1d830ec3db15)) (2026-11-03)
+- **Pushed 0 commits to** [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) ([link](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure/commit/2819c356e7bb4d638ee83f66977e47ae1b1739a8)) (2026-11-03)
+- **Pushed 0 commits to** [kelvinmanavar/shopverse\-aws\-eks\-infrastructure](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure) ([link](https://github.com/kelvinmanavar/shopverse-aws-eks-infrastructure/commit/4cf010bf840ba7b1b779133b94b1d7f2ce453020)) (2026-11-03)
+<!-- ACTIVITY:END -->
+
+## Open Source Contributions
+
+<!-- CONTRIBUTIONS:START -->
+No contributions to other repositories in the last 12 months.
+<!-- CONTRIBUTIONS:END -->
+
+>>>>>>> 627181f0584f3a79bb0f4e00f730a2fb78530c89
 ## Connect
 
 <a href="https://github.com/kelvinmanavar" target="_blank" rel="noreferrer"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github-dark.svg" /><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" /><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" title="GitHub" /></picture></a>  
