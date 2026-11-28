@@ -30,11 +30,11 @@ I work on cloud infrastructure and delivery pipelines, mainly on AWS and Azure, 
 <!-- FEATURED:START -->
 | Project | Description | Languages |
 | --- | --- | --- |
+| [kelvinmanavar/kelvinmanavar](https://github.com/kelvinmanavar/kelvinmanavar) |  | Python |
 | [kelvinmanavar/terraform\-projects](https://github.com/kelvinmanavar/terraform-projects) | A comprehensive collection of AWS architecture patterns designed using Terraform \(Infrastructure as Code\)\. | HCL |
 | [kelvinmanavar/secret\-remove](https://github.com/kelvinmanavar/secret-remove) | Step\-by\-step guide to remove accidentally committed secrets \(\.env, API keys\) from a Git repository and its history using git\-filter\-repo\. |  |
 | [kelvinmanavar/django\-celery\-app\-github\-action](https://github.com/kelvinmanavar/django-celery-app-github-action) | Django web application with Celery workers deployed on AWS EC2 using Auto Scaling Groups and Launch Templates, with CI/CD powered by GitHub Actions and AWS CodeDeploy\. | SCSS, CSS, HTML, Python |
 | [kelvinmanavar/secretManager\_secretRotate](https://github.com/kelvinmanavar/secretManager_secretRotate) | Lambda function for rotating secrets | Python |
-| [kelvinmanavar/kelvinmanavar](https://github.com/kelvinmanavar/kelvinmanavar) |  | Python |
 | [kelvinmanavar/shopverse\-application](https://github.com/kelvinmanavar/shopverse-application) | Shopverse application source code, Docker configurations, Kubernetes manifests, Helm charts, and CI/CD pipelines for deploying containerized workloads to AWS EKS\. | JavaScript, Go, CSS, HTML |
 <!-- FEATURED:END -->
 
